@@ -1,3 +1,284 @@
+  <!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Tiffany & Benedikt – Sitzplan</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  /* === FONTS === */
+  @font-face {
+    font-family: 'Humble';
+    src: url('fonts/Humble.woff2') format('woff2'),
+         url('fonts/Humble.woff') format('woff'),
+         url('fonts/Humble.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* === VARIABLES === */
+  :root {
+    --cream: #F5F0E8;
+    --cream-dark: #EDE6D6;
+    --olive: #3A4A2A;
+    --olive-mid: #4E6535;
+    --olive-light: #7A9158;
+    --olive-pale: #C8D4B0;
+    --lemon: #E8C84A;
+    --lemon-light: #F2DC7A;
+    --text-dark: #2C3820;
+    --text-mid: #4E5E3A;
+    --border: rgba(58, 74, 42, 0.2);
+    --shadow: rgba(58, 74, 42, 0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--text-dark);
+    font-family: 'Cormorant', Georgia, serif;
+    font-weight: 500;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* === BACKGROUND BOTANICAL DECORATION === */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; right: 0;
+    width: 340px; height: 340px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 340 340'%3E%3Ccircle cx='20' cy='20' r='130' fill='%233A4A2A' opacity='0.08'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* === HEADER === */
+  .header {
+    text-align: center;
+    padding: 40px 20px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header-botanical {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 220px;
+    opacity: 0.85;
+    display: none;
+  }
+
+  .header-title {
+    font-family: 'Humble', cursive;
+    font-size: clamp(40px, 10vw, 88px);
+    color: var(--olive);
+    line-height: 1;
+    margin-top: 20px;
+    letter-spacing: -1px;
+  }
+
+  .header-subtitle {
+    font-family: 'Cormorant', Georgia, serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: var(--olive-mid);
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  .header-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 16px auto;
+    max-width: 320px;
+  }
+
+  .header-divider::before,
+  .header-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--olive-light);
+    opacity: 0.5;
+  }
+
+  /* === SEARCH === */
+  .search-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 0 12px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 60px;
+    padding: 12px 18px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 2px 16px var(--shadow);
+  }
+
+  .search-box svg {
+    color: var(--olive-light);
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+  }
+
+  .search-box input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Cormorant', Georgia, serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-dark);
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .search-box input::placeholder {
+    color: var(--olive-light);
+    font-style: italic;
+  }
+
+  .search-clear {
+    cursor: pointer;
+    color: var(--olive-light);
+    font-size: 20px;
+    line-height: 1;
+    display: none;
+    border: none;
+    background: none;
+    padding: 4px 8px;
+    margin: -4px -8px -4px 0;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .search-clear.visible { display: block; }
+
+  /* === FILTER TABS === */
+  .filter-wrap {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 12px 24px;
+    position: relative;
+    z-index: 1;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .filter-btn {
+    font-family: 'Cormorant', Georgia, serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 40px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--olive-mid);
+    cursor: pointer;
+    transition: all 0.25s;
+    white-space: nowrap;
+    -webkit-appearance: none;
+    appearance: none;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .filter-btn:hover {
+    background: var(--olive-pale);
+    border-color: var(--olive-light);
+  }
+
+  .filter-btn:active {
+    transform: scale(0.98);
+  }
+
+  .filter-btn.active {
+    background: var(--olive);
+    color: var(--cream);
+    border-color: var(--olive);
+  }
+
+  /* === TABLES GRID === */
+  .tables-section {
+    padding: 0 12px 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tables-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 28px;
+    max-width: 1100px;
+    margin: 0 auto;
+    justify-items: center;
+  }
+
+  /* === ROUND TABLE === */
+  .table-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    transition: opacity 0.3s;
+  }
+
+  .table-wrap.faded {
+    opacity: 0.25;
+  }
+
+  .table-label {
+    font-family: 'Humble', cursive;
+    font-size: 24px;
+    color: var(--olive);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+
+  .table-round {
+    position: relative;
+    width: 260px;
+    height: 260px;
+  }
+
+  .table-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--cream-dark);
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .table-number {
     font-family: 'Humble', cursive;
     font-size: 24px;
@@ -8,3 +289,646 @@
     align-items: center;
     justify-content: center;
   }
+
+  /* Guest seat */
+  .seat {
+    position: absolute;
+    width: 58px;
+    text-align: center;
+    transform-origin: center center;
+    cursor: default;
+  }
+
+  .seat-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 3px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-dark);
+    line-height: 1.2;
+    transition: all 0.2s;
+    box-shadow: 0 1px 6px var(--shadow);
+    word-break: break-word;
+    hyphens: auto;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .seat-card.highlighted {
+    background: var(--olive);
+    color: white;
+    border-color: var(--olive);
+    transform: scale(1.15);
+    box-shadow: 0 4px 16px rgba(58,74,42,0.35);
+    z-index: 10;
+  }
+
+  .seat-card.dimmed {
+    opacity: 0.3;
+  }
+
+  .seat-empty .seat-card {
+    color: var(--olive-pale);
+    border-style: dashed;
+    font-style: italic;
+    font-size: 10px;
+  }
+
+  /* === RESULT BADGE === */
+  .result-badge {
+    display: none;
+    text-align: center;
+    padding: 12px 16px;
+    margin: 0 12px 24px;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--olive-mid);
+  }
+
+  .result-badge.visible { display: block; }
+
+  /* === BOTANICAL SVG ELEMENTS === */
+  .botanical-corner-tl {
+    position: fixed;
+    top: 0; left: 0;
+    width: 180px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+    display: none;
+  }
+
+  .botanical-corner-br {
+    position: fixed;
+    bottom: 0; right: 0;
+    width: 140px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.3;
+    transform: rotate(180deg);
+    display: none;
+  }
+
+  /* === FOOTER === */
+  footer {
+    text-align: center;
+    padding: 20px 12px;
+    font-size: 12px;
+    color: var(--olive-light);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+  }
+
+  /* === RESPONSIVE === */
+  @media (min-width: 600px) {
+    .header {
+      padding: 60px 20px 40px;
+    }
+
+    .header-botanical {
+      display: block;
+    }
+
+    .header-title {
+      margin-top: 90px;
+      font-size: clamp(52px, 8vw, 88px);
+    }
+
+    .header-subtitle {
+      font-size: 16px;
+      letter-spacing: 4px;
+    }
+
+    .header-divider {
+      gap: 16px;
+      margin: 24px auto;
+    }
+
+    .search-wrap {
+      padding: 0 20px 40px;
+    }
+
+    .search-box {
+      padding: 10px 24px;
+    }
+
+    .filter-wrap {
+      padding: 0 20px 40px;
+      gap: 12px;
+    }
+
+    .filter-btn {
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      padding: 6px 18px;
+      min-height: auto;
+    }
+
+    .tables-section {
+      padding: 0 40px 80px;
+    }
+
+    .tables-grid {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+    }
+
+    .table-round {
+      width: 280px;
+      height: 280px;
+    }
+
+    .table-center {
+      width: 90px;
+      height: 90px;
+    }
+
+    .table-number {
+      font-size: 26px;
+    }
+
+    .table-label {
+      font-size: 28px;
+    }
+
+    .seat {
+      width: 64px;
+    }
+
+    .seat-card {
+      font-size: 11.5px;
+      padding: 6px 4px;
+      min-height: auto;
+    }
+
+    .botanical-corner-tl {
+      display: block;
+      width: 220px;
+      opacity: 0.55;
+    }
+
+    .botanical-corner-br {
+      display: block;
+      width: 180px;
+      opacity: 0.45;
+    }
+
+    .result-badge {
+      font-size: 16px;
+      padding: 12px 20px;
+      margin-bottom: 32px;
+    }
+
+    footer {
+      font-size: 13px;
+      padding: 24px;
+      letter-spacing: 2px;
+    }
+  }
+
+  /* Landscape mobile optimization */
+  @media (max-height: 600px) and (orientation: landscape) {
+    .header {
+      padding: 20px 20px 16px;
+    }
+
+    .header-title {
+      font-size: clamp(32px, 6vw, 52px);
+      margin-top: 0;
+    }
+
+    .search-wrap {
+      padding: 0 12px 12px;
+    }
+
+    .filter-wrap {
+      padding: 0 12px 12px;
+    }
+
+    .tables-section {
+      padding: 0 12px 40px;
+    }
+  }
+
+  /* Improve touch targets */
+  @media (hover: none) and (pointer: coarse) {
+    .filter-btn,
+    .search-clear,
+    .search-box input {
+      min-height: 44px;
+    }
+
+    .filter-btn {
+      padding: 10px 16px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Botanical SVG corners -->
+<svg class="botanical-corner-tl" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+  <!-- Lemon branch top-left -->
+  <ellipse cx="30" cy="30" rx="110" ry="110" fill="#3A4A2A" opacity="0.09"/>
+  <line x1="80" y1="160" x2="140" y2="80" stroke="#4E6535" stroke-width="1.5" opacity="0.5"/>
+  <!-- leaves -->
+  <ellipse cx="110" cy="100" rx="22" ry="11" fill="#7A9158" opacity="0.55" transform="rotate(-35 110 100)"/>
+  <ellipse cx="140" cy="78" rx="18" ry="9" fill="#4E6535" opacity="0.5" transform="rotate(-55 140 78)"/>
+  <ellipse cx="88" cy="122" rx="20" ry="9" fill="#7A9158" opacity="0.45" transform="rotate(-20 88 122)"/>
+  <!-- lemon -->
+  <ellipse cx="158" cy="62" rx="18" ry="13" fill="#E8C84A" opacity="0.7"/>
+  <ellipse cx="158" cy="62" rx="14" ry="10" fill="#F2DC7A" opacity="0.5"/>
+  <line x1="140" y1="58" x2="155" y2="62" stroke="#4E6535" stroke-width="1" opacity="0.6"/>
+</svg>
+
+<svg class="botanical-corner-br" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="160" cy="160" rx="100" ry="100" fill="#3A4A2A" opacity="0.07"/>
+  <line x1="50" y1="50" x2="120" y2="130" stroke="#4E6535" stroke-width="1.5" opacity="0.5"/>
+  <ellipse cx="75" cy="80" rx="20" ry="9" fill="#7A9158" opacity="0.5" transform="rotate(30 75 80)"/>
+  <ellipse cx="100" cy="110" rx="18" ry="8" fill="#4E6535" opacity="0.45" transform="rotate(45 100 110)"/>
+  <ellipse cx="50" cy="55" rx="16" ry="11" fill="#E8C84A" opacity="0.65"/>
+</svg>
+
+<!-- Header -->
+<header class="header">
+  <!-- Inline botanical illustration above title -->
+  <svg class="header-botanical" viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- branch -->
+    <path d="M30 80 Q80 50 140 30 Q170 20 190 15" stroke="#4E6535" stroke-width="1.8" fill="none" opacity="0.7"/>
+    <!-- leaves -->
+    <ellipse cx="70" cy="58" rx="24" ry="10" fill="#7A9158" opacity="0.65" transform="rotate(-30 70 58)"/>
+    <line x1="70" y1="58" x2="74" y2="52" stroke="#4E6535" stroke-width="0.8" opacity="0.5"/>
+    <ellipse cx="100" cy="46" rx="20" ry="9" fill="#4E6535" opacity="0.55" transform="rotate(-45 100 46)"/>
+    <line x1="100" y1="46" x2="103" y2="39" stroke="#3A4A2A" stroke-width="0.8" opacity="0.5"/>
+    <ellipse cx="130" cy="36" rx="22" ry="10" fill="#7A9158" opacity="0.6" transform="rotate(-55 130 36)"/>
+    <!-- lemon -->
+    <ellipse cx="170" cy="24" rx="20" ry="14" fill="#E8C84A" opacity="0.85"/>
+    <ellipse cx="170" cy="24" rx="15" ry="10" fill="#F2DC7A" opacity="0.55"/>
+    <!-- small leaf at lemon -->
+    <ellipse cx="185" cy="14" rx="12" ry="5" fill="#4E6535" opacity="0.65" transform="rotate(-65 185 14)"/>
+  </svg>
+
+  <h1 class="header-title">Tiffany &amp; Benedikt</h1>
+  <p class="header-subtitle">Sitzplan · 2025</p>
+
+  <div class="header-divider">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C9 6 4 8 4 13a8 8 0 0016 0c0-5-5-7-8-11z" fill="#7A9158" opacity="0.7"/>
+    </svg>
+  </div>
+</header>
+
+<!-- Search -->
+<div class="search-wrap">
+  <div class="search-box">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/>
+    </svg>
+    <input type="text" id="searchInput" placeholder="Gast suchen …" autocomplete="off" inputmode="text"/>
+    <button class="search-clear" id="searchClear" aria-label="Suche leeren" type="button">×</button>
+  </div>
+</div>
+
+<!-- Filter -->
+<div class="filter-wrap" id="filterWrap" role="tablist">
+  <button class="filter-btn active" data-table="all" role="tab">Alle Tische</button>
+</div>
+
+<!-- Result hint -->
+<p class="result-badge" id="resultBadge"></p>
+
+<!-- Tables -->
+<main class="tables-section">
+  <div class="tables-grid" id="tablesGrid"></div>
+</main>
+
+<footer>
+  <span>Tiffany &amp; Benedikt · 2025</span>
+</footer>
+
+<script>
+// =============================================
+// GUEST DATA – load from CSV or edit here
+// =============================================
+// To load from CSV: place gaeste.csv next to index.html
+// CSV format:  Name,Tisch
+//              Anna Muster,1
+//              Max Beispiel,2
+// =============================================
+
+const TABLES = 6;
+const SEATS_PER_TABLE = 10;
+
+// Default data (overridden by CSV if present)
+let guestData = [
+  // Tisch 1
+  { name: "Anna Müller", table: 1 },
+  { name: "Peter Müller", table: 1 },
+  { name: "Sophie Wagner", table: 1 },
+  { name: "Jonas Wagner", table: 1 },
+  { name: "Clara Bauer", table: 1 },
+  { name: "Felix Bauer", table: 1 },
+  { name: "Lena Schmitt", table: 1 },
+  { name: "Tobias Schmitt", table: 1 },
+  { name: "Maria Koch", table: 1 },
+  { name: "David Koch", table: 1 },
+  // Tisch 2
+  { name: "Emma Fischer", table: 2 },
+  { name: "Lukas Fischer", table: 2 },
+  { name: "Hannah Meyer", table: 2 },
+  { name: "Maximilian Meyer", table: 2 },
+  { name: "Leonie Hoffmann", table: 2 },
+  { name: "Tim Hoffmann", table: 2 },
+  { name: "Mia Schulz", table: 2 },
+  { name: "Paul Schulz", table: 2 },
+  { name: "Laura Richter", table: 2 },
+  { name: "Nico Richter", table: 2 },
+  // Tisch 3
+  { name: "Julia Klein", table: 3 },
+  { name: "Sebastian Klein", table: 3 },
+  { name: "Lisa Wolf", table: 3 },
+  { name: "Florian Wolf", table: 3 },
+  { name: "Katharina Braun", table: 3 },
+  { name: "Michael Braun", table: 3 },
+  { name: "Sarah Zimmermann", table: 3 },
+  { name: "Andreas Zimmermann", table: 3 },
+  { name: "Nina Krause", table: 3 },
+  { name: "Christoph Krause", table: 3 },
+  // Tisch 4
+  { name: "Franziska Lehmann", table: 4 },
+  { name: "Patrick Lehmann", table: 4 },
+  { name: "Vanessa Hartmann", table: 4 },
+  { name: "Markus Hartmann", table: 4 },
+  { name: "Johanna Lange", table: 4 },
+  { name: "Christian Lange", table: 4 },
+  { name: "Isabel Schäfer", table: 4 },
+  { name: "Dominik Schäfer", table: 4 },
+  { name: "Tanja Krüger", table: 4 },
+  { name: "Alexander Krüger", table: 4 },
+  // Tisch 5
+  { name: "Rebecca Walter", table: 5 },
+  { name: "Stefan Walter", table: 5 },
+  { name: "Christine Schwarz", table: 5 },
+  { name: "Dennis Schwarz", table: 5 },
+  { name: "Melissa Weiß", table: 5 },
+  { name: "Simon Weiß", table: 5 },
+  { name: "Alina Peters", table: 5 },
+  { name: "Kai Peters", table: 5 },
+  { name: "Bianca Lange", table: 5 },
+  { name: "René Lange", table: 5 },
+  // Tisch 6
+  { name: "Annalena Neumann", table: 6 },
+  { name: "Oliver Neumann", table: 6 },
+  { name: "Miriam Hoffmann", table: 6 },
+  { name: "Fabian Hoffmann", table: 6 },
+  { name: "Jasmin Vogt", table: 6 },
+  { name: "Moritz Vogt", table: 6 },
+  { name: "Stefanie Schulze", table: 6 },
+  { name: "Benedikt Schulze", table: 6 },
+  { name: "Carolin Becker", table: 6 },
+  { name: "Hendrik Becker", table: 6 },
+];
+
+// =============================================
+// RENDER
+// =============================================
+
+function buildTables(guests) {
+  const grid = document.getElementById('tablesGrid');
+  const filterWrap = document.getElementById('filterWrap');
+  grid.innerHTML = '';
+
+  // Rebuild filter buttons (no listeners here – attachFilterListeners handles all)
+  const existing = filterWrap.querySelectorAll('.filter-btn[data-table]:not([data-table="all"])');
+  existing.forEach(b => b.remove());
+  for (let t = 1; t <= TABLES; t++) {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn';
+    btn.dataset.table = t;
+    btn.setAttribute('role', 'tab');
+    btn.textContent = 'Tisch ' + t;
+    filterWrap.appendChild(btn);
+  }
+
+  for (let t = 1; t <= TABLES; t++) {
+    const tableGuests = guests.filter(g => g.table === t);
+    grid.appendChild(buildTableEl(t, tableGuests));
+  }
+}
+
+function buildTableEl(tableNum, guests) {
+  const wrap = document.createElement('div');
+  wrap.className = 'table-wrap';
+  wrap.dataset.table = tableNum;
+
+  const label = document.createElement('div');
+  label.className = 'table-label';
+  label.textContent = 'Tisch ' + tableNum;
+  wrap.appendChild(label);
+
+  const round = document.createElement('div');
+  round.className = 'table-round';
+
+  // Center circle
+  const center = document.createElement('div');
+  center.className = 'table-center';
+  const num = document.createElement('span');
+  num.className = 'table-number';
+  num.textContent = tableNum;
+  center.appendChild(num);
+  round.appendChild(center);
+
+  // Position seats in a circle
+  const total = SEATS_PER_TABLE;
+  const radius = 98; // px from center to seat center
+  const tableSize = 260;
+  const seatW = 58;
+  const seatH = 50; // approx
+
+  for (let i = 0; i < total; i++) {
+    const angle = (2 * Math.PI * i / total) - Math.PI / 2;
+    const cx = tableSize / 2 + radius * Math.cos(angle);
+    const cy = tableSize / 2 + radius * Math.sin(angle);
+
+    const seat = document.createElement('div');
+    seat.className = 'seat' + (guests[i] ? '' : ' seat-empty');
+
+    const card = document.createElement('div');
+    card.className = 'seat-card';
+    card.dataset.name = guests[i] ? guests[i].name.toLowerCase() : '';
+
+    if (guests[i]) {
+      card.textContent = guests[i].name;
+    } else {
+      card.textContent = 'frei';
+    }
+
+    seat.style.left = (cx - seatW / 2) + 'px';
+    seat.style.top = (cy - seatH / 2) + 'px';
+    seat.style.width = seatW + 'px';
+
+    seat.appendChild(card);
+    round.appendChild(seat);
+  }
+
+  wrap.appendChild(round);
+  return wrap;
+}
+
+// =============================================
+// SEARCH
+// =============================================
+let currentFilter = 'all';
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  document.getElementById('searchClear').classList.toggle('visible', q.length > 0);
+  doSearch(q);
+});
+
+document.getElementById('searchClear').addEventListener('click', function() {
+  document.getElementById('searchInput').value = '';
+  this.classList.remove('visible');
+  doSearch('');
+});
+
+function doSearch(q) {
+  const badge = document.getElementById('resultBadge');
+  const allCards = document.querySelectorAll('.seat-card[data-name]');
+  const allTables = document.querySelectorAll('.table-wrap');
+
+  if (!q) {
+    badge.classList.remove('visible');
+    allCards.forEach(c => { c.classList.remove('highlighted', 'dimmed'); });
+    allTables.forEach(t => { t.classList.remove('faded'); });
+    applyFilter(currentFilter);
+    return;
+  }
+
+  // Each word in the query must match the start of at least one word in the name.
+  // "anna"        → ["anna"]          → "Anna Müller" ✅  "Annalena" ❌
+  // "anna mü"     → ["anna","mü"]     → "Anna Müller" ✅  "Anna Koch" ❌
+  // "anna müller" → ["anna","müller"] → "Anna Müller" ✅
+  function matchesQuery(fullName, q) {
+    const nameParts = fullName.toLowerCase().split(/\s+/);
+    const queryParts = q.toLowerCase().trim().split(/\s+/);
+    return queryParts.every(qp => nameParts.some(np => np.startsWith(qp)));
+  }
+
+  const foundCards = [];
+  allCards.forEach(card => {
+    if (card.dataset.name && matchesQuery(card.dataset.name, q)) {
+      card.classList.add('highlighted');
+      card.classList.remove('dimmed');
+      foundCards.push(card);
+    } else if (card.dataset.name) {
+      card.classList.add('dimmed');
+      card.classList.remove('highlighted');
+    }
+  });
+
+  if (foundCards.length > 0) {
+    // Collect all matching tables
+    const matchingTables = new Set(foundCards.map(c => c.closest('.table-wrap')));
+    allTables.forEach(t => {
+      t.classList.toggle('faded', !matchingTables.has(t));
+    });
+
+    if (foundCards.length === 1) {
+      const name = foundCards[0].textContent;
+      const tableNum = foundCards[0].closest('.table-wrap').dataset.table;
+      badge.textContent = `${name} sitzt an Tisch ${tableNum}`;
+    } else {
+      badge.textContent = `${foundCards.length} Gäste gefunden`;
+    }
+    badge.classList.add('visible');
+
+    // Scroll to first match
+    const firstTable = foundCards[0].closest('.table-wrap');
+    firstTable && firstTable.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } else {
+    allTables.forEach(t => t.classList.remove('faded'));
+    badge.textContent = 'Kein Gast gefunden.';
+    badge.classList.add('visible');
+  }
+}
+
+// =============================================
+// FILTER
+// =============================================
+
+function attachFilterListeners() {
+  const filterWrap = document.getElementById('filterWrap');
+  filterWrap.addEventListener('click', function(e) {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    const val = btn.dataset.table;
+    setFilter(val === 'all' ? 'all' : parseInt(val));
+  });
+}
+
+function setFilter(tableNum) {
+  currentFilter = tableNum;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  const active = document.querySelector(`.filter-btn[data-table="${tableNum}"]`);
+  if (active) active.classList.add('active');
+  applyFilter(tableNum);
+}
+
+function applyFilter(tableNum) {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  if (q) return; // search takes priority
+  document.querySelectorAll('.table-wrap').forEach(t => {
+    if (tableNum === 'all') {
+      t.classList.remove('faded');
+    } else {
+      t.classList.toggle('faded', parseInt(t.dataset.table) !== tableNum);
+    }
+  });
+}
+
+// =============================================
+// CSV LOADER
+// =============================================
+
+async function tryLoadCSV() {
+  try {
+    const res = await fetch('gaeste.csv');
+    if (!res.ok) return;
+    const text = await res.text();
+    const lines = text.trim().split('\n').slice(1); // skip header
+    const parsed = [];
+    lines.forEach(line => {
+      const parts = line.split(',');
+      if (parts.length >= 2) {
+        const name = parts[0].trim().replace(/^"|"$/g, '');
+        const table = parseInt(parts[1].trim());
+        if (name && !isNaN(table)) parsed.push({ name, table });
+      }
+    });
+    if (parsed.length > 0) {
+      guestData = parsed;
+    }
+  } catch(e) {
+    // No CSV found, use default data
+  }
+}
+
+// =============================================
+// INIT
+// =============================================
+(async () => {
+  await tryLoadCSV();
+  buildTables(guestData);
+  attachFilterListeners();
+})();
+</script>
+</body>
+</html>
